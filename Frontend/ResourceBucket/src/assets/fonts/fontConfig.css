@@ -1,0 +1,6 @@
+@font-face {
+    font-family: 'Inter'; /* You can name it whatever you like */
+    src: url('./inter/Inter-V.ttf'); /* Adjust the path to your font file */
+    font-weight: normal;
+    font-style: normal;
+  }

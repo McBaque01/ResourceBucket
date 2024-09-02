@@ -1,4 +1,5 @@
-import {UseFormRegister, FieldValues, Path} from 'react-hook-form'
+import {UseFormRegister, FieldValues, Path, useForm} from 'react-hook-form'
+import { useState, useRef } from 'react'
 interface TextInputProps<T extends FieldValues> {
 
 id: Path<T>
@@ -23,6 +24,8 @@ minLength?: number;
 
 }
 
+ 
+
 
 
 
@@ -46,22 +49,40 @@ export const TextInput =<T extends FieldValues> ({
         maxLength,
         minLength,
 
-        register}: TextInputProps<T>) => {
 
+       register
+       }: TextInputProps<T>) => {
 
+          const [isActive, setIsActive] = useState(false);
+          
+          const {ref, ...rest} = register(id)
+          const  inputRef = useRef<HTMLInputElement | null>(null)
 
-
+          const handleFocus = () => {
+            if (inputRef.current) {
+              inputRef.current.focus();
+            }
+          };
           
   return (
-    <div className={`${containerClassname} bg-slate-500 flex flex-col w-full p-1`}>
-      <label htmlFor={id} className={`${labelClassname}`}>
-        {label}
-      </label>
-      <div className='w-full'>
+    <div className={`${containerClassname} bg-slate-500 flex flex-col w-full p-1`} onClick={handleFocus}>
+      
+      <div className='w-full bg-slate-700 px-2 py-1'>
+
+        <label htmlFor={id} className={`${labelClassname} ${isActive ? 'text-red-300' : 'text-black'}`}>
+          {label}
+        </label>
+
       <input 
         id={id as string}
         type={type} 
-        {...register(id)} 
+        {...rest}
+        
+        ref={(e)=>{
+          ref(e)
+          inputRef.current = e
+        }}
+        
         placeholder={placeholder} 
         className={`${inputClassname} ${error ? 'text-red-700 border-red-500 border-2 focus:outline-none'  : ''} focus:outline-2 focus:outline w-full`}
         disabled={disabled}
@@ -69,6 +90,10 @@ export const TextInput =<T extends FieldValues> ({
         required={required}
         maxLength={maxLength}
         minLength={minLength}
+        onFocus={()=>setIsActive(true)}
+        onBlur={()=>setIsActive(false)}
+       
+      
       />
       </div>
       {error && <span className={`${error ? 'text-red-700' : ''}`}>{error}</span>}
