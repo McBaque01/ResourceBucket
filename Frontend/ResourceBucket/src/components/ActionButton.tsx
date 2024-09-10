@@ -11,10 +11,8 @@ name: string;
 classname?: string;
 
 handleClick: () => void
+  
 }
-
-
-
 
 
 export const ActionButton: React.FC<ActionButtonPropsType> = ({icon, name, classname,handleClick}: ActionButtonPropsType) => {

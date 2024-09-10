@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { TextInput } from '../components/TextInput'
 import { InputField } from '../components/InputField'
 
@@ -6,10 +6,7 @@ import z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SubmitHandler, useForm} from 'react-hook-form'
 
-import axios from 'axios'
-
 import { signUpSchema } from '../schema/SignUpSchema'
-
 
 import logo from '../assets/ResourcrBucket-01.svg'
 import { ActionButton } from '../components/ActionButton'
@@ -18,32 +15,61 @@ import { Icon } from "@iconify/react";
 
 import { GoogleLogin, useGoogleLogin } from '@react-oauth/google';
 
+import axios from '../api/axios'
+
+import { useQuery } from '@tanstack/react-query';
+
+
 type SignUpSchemaType = z.infer<typeof signUpSchema>
 
-axios.defaults.withCredentials = true;
+
 export const SignUp = () => {
 
+  const tryServer = async () => {
+    const BackendPath = import.meta.env.REACT_APP_BACKEND_PATH
+    const response = await axios.get(`${BackendPath}`); // Use the configured instance
+    console.log(response.data)
+    return response;
+  };
 
+  // const { data, error, isLoading } = useQuery(['user', 1], tryServer);
+  const { isLoading, isError, data: serverData, error } = useQuery({
+    queryKey: ['server', 1], // Your unique query identifier
+    queryFn: tryServer, // Your data fetching function
+  });
 
   const { register, handleSubmit, formState: { errors, isValid}}= useForm<SignUpSchemaType>({
     mode: 'onChange',
     resolver:zodResolver(signUpSchema),
-  })
+  });
 
 
   const SignUpSubmit:SubmitHandler<SignUpSchemaType> = (data) => {
-    console.log(data)
-    alert(data.Email)
-  }
+    const { isLoading, isError, data: serverData, error } = useQuery({
+      queryKey: ['server', 1], // Your unique query identifier
+      queryFn: tryServer, // Your data fetching function
+    });
+    console.log(serverData)
+    // alert(data.Email)
+  };
   
-console.log(isValid, 'isValid register')
-console.log(errors, 'errors register')
-  
-const GoogleLogin = useGoogleLogin({
-  onSuccess: tokenResponse => console.log(tokenResponse),
+// console.log(isValid, 'isValid register')
+// console.log(errors, 'errors register')
 
-  onError: ErrorResponse => console.log(ErrorResponse.error_description)
-});
+  const GoogleLogin = useGoogleLogin({
+    onSuccess: tokenResponse => console.log(tokenResponse),
+
+    onError: ErrorResponse => console.log(ErrorResponse.error_description)
+  });
+
+
+
+
+  
+
+ console.log(serverData?.data.message, "data Query")
+ console.log(error, "error QUERY")
+ console.log(isLoading,"isLOADING QUERY")
 
   
 

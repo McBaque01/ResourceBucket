@@ -77,13 +77,13 @@ export const InputField =<T extends FieldValues> ({
         }, 100); 
     };
 
-    console.log(isFocus)
-    console.log(isValued, `${id} Valued`)
-    console.log(error)
+    // console.log(isFocus)
+    // console.log(isValued, `${id} Valued`)
+    // console.log(error)
 
-    console.log(isVisible, "Visible?")
-    console.log(type, "TYPE")
-    console.log(label, `${label} & ${label === "Password"}?`)
+    // console.log(isVisible, "Visible?")
+    // console.log(type, "TYPE")
+    // console.log(label, `${label} & ${label === "Password"}?`)
 
 
     const handleVisible = () => {
@@ -114,7 +114,7 @@ export const InputField =<T extends FieldValues> ({
                         <label htmlFor={id} 
                             className={` absolute z-10 text-nowrap transition-all text-gray-400 cursor-text font-Inter
                              ${labelClassname}
-                            ${isValued || isFocus ? 'text-[0.8em] leading-0 -top-[4px] tracking-[0.1em]' : 'leading-0 text-[1em] top-[9px]'}
+                            ${isValued || isFocus ? 'text-[0.8em] leading-0 -top-[4px]' : 'leading-0 text-[1em] top-[9px]'}
                         
                             `}>
                             {label}
@@ -178,74 +178,8 @@ export const InputField =<T extends FieldValues> ({
                         <span className='text-red-700 text-[0.8em] leading-[1.2em]'>{error}</span>
                     </div>
                 }
-
-
-
-                {/* <div className='w-full bg-slate-400 pt-[2px]'>
-                    {error && <span className={` leading-[1px] ${error ? 'text-red-700' : ''} text-[0.8em] bg-slate-100`}>{error}</span>}
-                </div>  */}
+    
             </div>
-
-
-
-
-        {/* <div 
-            className={`
-                w-full h-[3.75em] ring-gray-300 rounded-md flex flex-col justify-end cursor-text relative bg-slate-50 p-2
-                ${containerClassname}
-                ${isFocus ? ' ring-2' : 'ring-1'}
-            `}
-            onClick={handleFocus}
-        >
-         <div className={`px-2 pb-[3px] relative flex flex-col w-full h-full pt-[18px]`}>
-            <label
-                htmlFor={id}
-                className={` text-gray-500 text-nowrap cursor-text transition-all z-10 absolute
-                    ${labelClassname}
-                    ${isValued || isFocus ? 'text-[0.8em] leading-0 -top-[4px]' : 'leading-0 text-[1em] top-2'}
-                `}
-            >
-                   {label}
-            </label>
-
-                <input 
-
-                    id={id as string}
-                    type={type}
-                    placeholder={placeholder}
-
-                    {...rest}
-
-                    ref={(e)=>{
-                        ref(e)
-                        InputRef.current = e
-                    }}
-
-                    className={`${inputClassname} focus:outline-none relative text-[1em] leading-3 w-full bg-CWhite`} 
-                   
-                    onFocus={handleFocus} 
-                    onBlur={handleBlur} 
-                  
-                    disabled={disabled}
-                    readOnly={readOnly}
-                    required={required}
-                    minLength={minLength}
-                    maxLength={maxLength}
-                />
-                
-                {label === "Password" || label === "Confirm Password" ? 
-                    <div onClick={handleVisible}>
-                        Hidden
-                    </div> :
-                    <>
-                    </>
-                }
-           
-           </div>        
-        </div>
-        <div className='w-full px-2'>
-        {error && <span className={`${error ? 'text-red-700' : ''} text-[0.8em]`}>{error}</span>}
-        </div> */}
 
         </>
     );
